@@ -6,20 +6,32 @@ from pathlib import Path
 target_files = [
     # Core app structure
     "app/page.tsx",
+    "app/layout.tsx",
     "components/pages/app.tsx",
     ".env.example",
     
-    # Context/SDK integration
-    "components/context/MiniAppContext.tsx",
+    # Providers and Context
+    "components/farcaster-provider.tsx",
+    "components/frame-wallet-provider.tsx",
+    "hooks/use-miniapp-context.ts",
+    
+    # UI Components
     "components/Home/FarcasterActions.tsx",
     "components/Home/WalletActions.tsx",
+    "components/Home/User.tsx",
+    "components/Home/index.tsx",
+    "components/safe-area-container.tsx",
     
-    # Configuration
+    # Configuration and Utilities
     "app/.well-known/farcaster.json/route.ts",
+    "lib/constants.ts",
+    "lib/notifs.ts",
     "package.json",
+    "next.config.mjs",
+    "tailwind.config.ts",
     
-    # Example components
-    "components/Home/User.tsx"
+    # Types
+    "types/index.ts"
 ]
 
 def extract_files(repo_path, output_file="llm.txt", markdown_file="repo_structure.md"):
@@ -40,6 +52,16 @@ def extract_files(repo_path, output_file="llm.txt", markdown_file="repo_structur
         # Write header to markdown file
         md_file.write("# Monad Mini-App Template Structure\n\n")
         md_file.write("This document contains key files from the Monad Mini-App Template to help understand its structure.\n\n")
+        
+        # Add target_files list to both files
+        txt_file.write("### KEY FILES IN TEMPLATE STRUCTURE ###\n\n")
+        target_files_str = "\n".join([f"- {file}" for file in target_files])
+        txt_file.write(f"{target_files_str}\n\n")
+        
+        md_file.write("## Key Files in Template Structure\n\n")
+        md_file.write("```\n")
+        md_file.write(target_files_str)
+        md_file.write("\n```\n\n")
         
         # Look for each target file
         for file_path in target_files:
@@ -82,6 +104,43 @@ def extract_files(repo_path, output_file="llm.txt", markdown_file="repo_structur
                 md_file.write(f"## {file_path}\n\n")
                 md_file.write("*File not found in repository*\n\n")
                 print(f"⚠️ Not found: {file_path}")
+        
+        # Add application architecture explanation
+        md_file.write("## Application Architecture\n\n")
+        md_file.write("### Overview\n\n")
+        md_file.write("The Monad Mini-App Template is built with Next.js and integrates with Farcaster and wallet functionality. " +
+                     "Here's a breakdown of how the components work together:\n\n")
+        
+        # Component relationships
+        md_file.write("### Component Relationships\n\n")
+        md_file.write("```\n")
+        md_file.write("app/layout.tsx                 # Root layout with providers\n")
+        md_file.write("  ├─ farcaster-provider.tsx   # Farcaster authentication context\n")
+        md_file.write("  ├─ frame-wallet-provider.tsx # Wallet connection for Frames\n")
+        md_file.write("  └─ app/page.tsx            # Entry point with Frame metadata\n")
+        md_file.write("       └─ components/pages/app.tsx # Main application component\n")
+        md_file.write("           └─ components/Home/* # UI components for user interaction\n")
+        md_file.write("               ├─ FarcasterActions.tsx # Farcaster-specific actions\n")
+        md_file.write("               ├─ WalletActions.tsx # Wallet connection and transactions\n")
+        md_file.write("               └─ User.tsx    # User profile display\n")
+        md_file.write("```\n\n")
+        
+        # Data flow explanation
+        md_file.write("### Data Flow\n\n")
+        md_file.write("1. **Authentication**: Handled by `farcaster-provider.tsx` using Farcaster authentication protocol\n")
+        md_file.write("2. **Context Management**: `use-miniapp-context.ts` hook provides access to authenticated user and wallet\n")
+        md_file.write("3. **Wallet Integration**: `frame-wallet-provider.tsx` enables connection to the user's wallet through Farcaster Frames\n")
+        md_file.write("4. **UI Components**: Components in the Home directory leverage the context to display user info and enable interactions\n\n")
+        
+        # Getting Started guide
+        md_file.write("## Getting Started\n\n")
+        md_file.write("To set up this mini-app template:\n\n")
+        md_file.write("1. Clone the repository\n")
+        md_file.write("2. Install dependencies with `yarn install`\n")
+        md_file.write("3. Copy `.env.example` to `.env.local` and update variables\n")
+        md_file.write("4. Run the development server with `yarn dev`\n")
+        md_file.write("5. Navigate to `http://localhost:3000` to view the app\n\n")
+        md_file.write("For deployment, you'll need to set up the same environment variables in your hosting provider.\n\n")
         
         # Additionally, add directory structure to markdown file
         md_file.write("## Directory Structure\n\n")
