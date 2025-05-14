@@ -112,8 +112,4 @@ These enhancements can be added incrementally as your application grows in compl
 
 ## License
 
-[Specify the license here]
-
-## Contributing
-
-[Add contribution guidelines here]
+MIT
