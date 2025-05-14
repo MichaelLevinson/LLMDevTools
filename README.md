@@ -5,6 +5,7 @@
 This tool extracts content from a repository and generates two output files for LLM analysis and reference:
 1. A raw text file (`llm.txt`) containing the concatenated content of all target files
 2. A formatted markdown file (`repo_structure.md`) with syntax highlighting and directory structure
+3. Includes a PDF OCR Extraction to a raw text file (`llm.txt`)
 
 While the tool now supports multiple project types through auto-detection, only the Monad Mini-App Template extraction has been thoroughly tested. Support for other project types (Next.js, React, Python, etc.) is still in development.
 
